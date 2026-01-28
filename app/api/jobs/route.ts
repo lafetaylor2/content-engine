@@ -2,11 +2,14 @@ import "server-only";
 import { NextResponse } from "next/server";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 
-const isVercelCron = request.headers.get("x-vercel-cron") === "1";
+export async function POST(request: Request) {
 
-if (process.env.VERCEL && !isVercelCron) {
-  return Response.json({ error: "unauthorized" }, { status: 401 });
-}
+  const isVercelCron = request.headers.get("x-vercel-cron") === "1";
+
+  if (process.env.VERCEL && !isVercelCron) {
+    return Response.json({ error: "unauthorized" }, { status: 401 });
+  }
+
 
 type JobRequestBody = {
   type: string;
