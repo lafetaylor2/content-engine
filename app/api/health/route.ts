@@ -1,25 +1,21 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { getSupabaseServerClient } from "@/lib/supabase/server";
 
 export async function GET() {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  );
-
-  const { data, error } = await supabase.auth.admin.listUsers({
-    perPage: 1,
-  });
+  const timestamp = new Date().toISOString();
+  const supabase = getSupabaseServerClient();
+  const { error } = await supabase.storage.listBuckets();
 
   if (error) {
     return NextResponse.json(
-      { ok: false, error: error.message },
-      { status: 500 }
+      { ok: false, supabase: "error", timestamp },
+      { status: 503 }
     );
   }
 
   return NextResponse.json({
     ok: true,
-    users_checked: data.users.length,
+    supabase: "connected",
+    timestamp,
   });
 }

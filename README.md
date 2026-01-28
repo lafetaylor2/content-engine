@@ -34,3 +34,16 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Local Scheduler
+
+- Make the script executable:
+  chmod +x ./run_personal_thought.sh
+- Test manually:
+  ./run_personal_thought.sh
+- Add a cron entry:
+  crontab -e
+- Example cron line (replace with absolute path):
+  0 8,13,20 * * * /ABSOLUTE/PATH/content-engine/run_personal_thought.sh >> ~/personal_thought.log 2>&1
+
+Note: The Next.js server must be running locally (npm run dev) for localhost:3001 to respond.
